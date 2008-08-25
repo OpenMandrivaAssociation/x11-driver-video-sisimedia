@@ -27,6 +27,8 @@ BuildRequires: GL-devel
 
 Conflicts: xorg-x11-server < 7.0
 
+Obsoletes: x11-driver-video-sis-imedia < %{version}-%{release}
+
 %description
 x11-driver-video-sisimedia is the video driver for SiS 670 / 671
 cards. These are not supported by the X.org 'sis' driver. This code

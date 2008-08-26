@@ -2,7 +2,7 @@
 # the fact it can change: version it as 0.9.1 (the internal version)
 # -1.downloaddata.Xmdv - AdamW 2008/08
 %define date 20080808
-%define rel 3
+%define rel 4
 
 Name: x11-driver-video-sisimedia
 Version: 0.9.1

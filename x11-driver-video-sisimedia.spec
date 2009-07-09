@@ -1,8 +1,9 @@
-# Upstream source tarball is not versioned, so we have to account for
-# the fact it can change: version it as 0.9.1 (the internal version)
-# -1.downloaddata.Xmdv - AdamW 2008/08
-%define date 20080808
-%define rel 6
+# Update to the sis driver provided by clevo. It's based on release 0.9.1 fd.o
+# release, but it does not have a version of itself. The tarball is the fd.o
+# 0.9.1 release itself. The following date macro is the date when the patch
+# from the provided driver and the release was generated.
+%define date 20090622
+%define rel 2
 
 Name: x11-driver-video-sisimedia
 Version: 0.9.1
@@ -10,22 +11,21 @@ Release: %mkrel 1.%{date}.%{rel}
 Summary: Video driver for SiS 670 / 671 cards
 Group: System/X11
 URL: http://www.linuxconsulting.ro/xorg-drivers/
-Source: http://www.linuxconsulting.ro/xorg-drivers/src/xf86-video-sis-imedia.tgz
+Source: http://xorg.freedesktop.org/releases/individual/driver/xf86-video-sis-%{version}.tar.bz2
 # Fix build: don't include ansic.h (leads to conflicting defs)
 Patch0: x11-driver-video-sis-imedia-0.9.1-ansic.patch
 # Fix build: always include setjmp.h (conditional doesn't work on
 # 2008.0)
 Patch1:	x11-driver-video-sis-imedia-0.9.1-setjmp.patch
 
-# Port to libpciaccess
-Patch101: 0001-Port-to-libpciaccess.patch
-Patch102: 0002-switch-vga-over-to-pciaccess.patch
-Patch103: 0003-fix-some-thinkos-in-the-pciaccess-patch-this-now-wo.patch
-Patch104: 0004-Require-pciaccess-0.10.0-for-pci_device_map_range.patch
-Patch105: 0005-fixup-pciaccess-version-detect.patch
-Patch106: 0006-Remove-XFree86-Misc-PassMessage-support.patch
-Patch107: 0007-Do-not-include-xf86_ansic.h.patch
-Patch108: 0008-Fix-compilation-with-Werror-format-security.patch
+# Changes provided by Clevo and build fixes
+Patch101: 0001-Driver-changes-sent-by-clevo.patch
+Patch102: 0002-Remove-XFree86-Misc-PassMessage-support.patch
+Patch103: 0003-Fix-build-with-Werror-format-security.patch
+Patch104: 0004-Do-not-force-detected-CRT1-to-off.patch
+Patch105: 0005-Fix-backlight-off-on-SiS30x.-video-bridges.patch
+Patch106: 0006-Add-IgnoreHotkeyFlag-driver-option.patch
+
 
 License: MIT
 BuildRoot: %{_tmppath}/%{name}-root
@@ -46,9 +46,9 @@ cards. These are not supported by the X.org 'sis' driver. This code
 is very different, so the two cannot be easily merged.
 
 %prep
-%setup -q -n xf86-video-sis-imedia
-%patch0 -p1 -b .ansic
-%patch1 -p1 -b .setjmp
+%setup -q -n xf86-video-sis-%{version}
+#patch0 -p1 -b .ansic
+#patch1 -p1 -b .setjmp
 
 %patch101 -p1
 %patch102 -p1
@@ -56,22 +56,15 @@ is very different, so the two cannot be easily merged.
 %patch104 -p1
 %patch105 -p1
 %patch106 -p1
-%patch107 -p1
-%patch108 -p1
 
 %build
 # rename driver sisimedia so it can co-exist with x.org sis driver
 # - AdamW 2008/08
-mv src/sis_drv.la src/sisimedia_drv.la
-sed -i -e 's,sis_drv,sisimedia_drv,g' src/sisimedia_drv.la src/Makefile.am
+sed -i -e 's,sis_drv,sisimedia_drv,g' src/Makefile.am
 sed -i -e 's,\"sis\",\"sisimedia\",g' src/sis.h
 sed -i -e 's,sisModuleData,sisimediaModuleData,g' src/sis_driver.c
 
-# these two in this order are needed to avoid odd failures: seems the
-# tarball was generated in a very weird environment - AdamW 2008/08,
-# thanks to pcpa
 autoreconf -ifs
-make distclean
 
 %configure2_5x --disable-static
 %make

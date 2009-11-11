@@ -2,8 +2,22 @@
 # release, but it does not have a version of itself. The tarball is the fd.o
 # 0.9.1 release itself. The following date macro is the date when the patch
 # from the provided driver and the release was generated.
-%define date 20090622
-%define rel 2
+#
+# The last driver provided by SiS is from 14/05/09
+# This tarball was generated with the commands:
+# % unrar x sis_drv_src_140509_viaSIS.rar
+# % cd sis_drv_src_140509/2d-driver
+# % make distclean
+# % rm -f src/*.bak
+# % rm -fr src/xvmc/.deps
+# % rm -fr src/xvmc/Makefile
+# % cd ..
+# % mkdir xf86-video-sis-0.9.1
+# % mv sis_drv_src_140509/2d-driver/* xf86-video-sis-0.9.1
+# % chmod +x configure
+# % tar jcvf xf86-video-sis-0.9.1.tar.bz2 xf86-video-sis-0.9.1
+%define date 20090911
+%define rel 1
 
 Name: x11-driver-video-sisimedia
 Version: 0.9.1
@@ -12,20 +26,27 @@ Summary: Video driver for SiS 670 / 671 cards
 Group: System/X11
 URL: http://www.linuxconsulting.ro/xorg-drivers/
 Source: http://xorg.freedesktop.org/releases/individual/driver/xf86-video-sis-%{version}.tar.bz2
-# Fix build: don't include ansic.h (leads to conflicting defs)
-Patch0: x11-driver-video-sis-imedia-0.9.1-ansic.patch
-# Fix build: always include setjmp.h (conditional doesn't work on
-# 2008.0)
-Patch1:	x11-driver-video-sis-imedia-0.9.1-setjmp.patch
 
-# Changes provided by Clevo and build fixes
-Patch101: 0001-Driver-changes-sent-by-clevo.patch
-Patch102: 0002-Remove-XFree86-Misc-PassMessage-support.patch
-Patch103: 0003-Fix-build-with-Werror-format-security.patch
-Patch104: 0004-Do-not-force-detected-CRT1-to-off.patch
-Patch105: 0005-Fix-backlight-off-on-SiS30x.-video-bridges.patch
-Patch106: 0006-Add-IgnoreHotkeyFlag-driver-option.patch
+Patch1: 0002-Remove-XFree86-Misc-PassMessage-support.patch
+Patch2: 0003-Fix-build-with-Werror-format-security.patch
+Patch3: 0004-Do-not-force-detected-CRT1-to-off.patch
+Patch4: 0005-Fix-backlight-off-on-SiS30x.-video-bridges.patch
+Patch5: 0006-Add-IgnoreHotkeyFlag-driver-option.patch
 
+# This corrects issues ("black stripes" in video output) in 2 Mandriva OEMs:
+# oem 1 Requires:
+#	Option "QuirkEDID60Hz"
+# in the Device section /etc/X11/xorg.conf
+# oem 2 Requires:
+#	Option "QuirkEDID60Hz"
+#	Option "UseOEMData" "false"
+#	Option "UseROMData" "false"
+# in the Device section /etc/X11/xorg.conf
+# Both OEMs require a "cold boot" to take effect, that is, if fiddling
+# with xorg.conf options, it may require a cold boot because the driver
+# will keep some register set between X Server restarts.
+# Both OEMs are based on 2009.1 (using SiS 671).
+Patch6: x11-driver-video-sisimedia-0.9.1-QuirkEDID60Hz.patch
 
 License: MIT
 BuildRoot: %{_tmppath}/%{name}-root
@@ -47,15 +68,12 @@ is very different, so the two cannot be easily merged.
 
 %prep
 %setup -q -n xf86-video-sis-%{version}
-#patch0 -p1 -b .ansic
-#patch1 -p1 -b .setjmp
-
-%patch101 -p1
-%patch102 -p1
-%patch103 -p1
-%patch104 -p1
-%patch105 -p1
-%patch106 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 %build
 # rename driver sisimedia so it can co-exist with x.org sis driver

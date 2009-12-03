@@ -5,18 +5,24 @@
 #
 # The last driver provided by SiS is from 14/05/09
 # This tarball was generated with the commands:
-# % unrar x sis_drv_src_140509_viaSIS.rar
-# % cd sis_drv_src_140509/2d-driver
+
+# (old: % unrar x sis_drv_src_140509_viaSIS.rar)
+# (old: % cd sis_drv_src_140509/2d-driver)
+
+# (source from 20091203)
+# % unrar x Linux-driver.rar
+# % cd 2d-driver
 # % make distclean
 # % rm -f src/*.bak
 # % rm -fr src/xvmc/.deps
 # % rm -fr src/xvmc/Makefile
+# % for f in `find . -name \*.c -o -name \*.h`; do dos2unix -U $f; done
 # % cd ..
 # % mkdir xf86-video-sis-0.9.1
-# % mv sis_drv_src_140509/2d-driver/* xf86-video-sis-0.9.1
+# % mv 2d-driver/* xf86-video-sis-0.9.1
 # % chmod +x configure
 # % tar jcvf xf86-video-sis-0.9.1.tar.bz2 xf86-video-sis-0.9.1
-%define date 20090911
+%define date 20091203
 %define rel 1
 
 Name: x11-driver-video-sisimedia
@@ -29,24 +35,8 @@ Source: http://xorg.freedesktop.org/releases/individual/driver/xf86-video-sis-%{
 
 Patch1: 0002-Remove-XFree86-Misc-PassMessage-support.patch
 Patch2: 0003-Fix-build-with-Werror-format-security.patch
-Patch3: 0004-Do-not-force-detected-CRT1-to-off.patch
-Patch4: 0005-Fix-backlight-off-on-SiS30x.-video-bridges.patch
-Patch5: 0006-Add-IgnoreHotkeyFlag-driver-option.patch
-
-# This corrects issues ("black stripes" in video output) in 2 Mandriva OEMs:
-# oem 1 Requires:
-#	Option "QuirkEDID60Hz"
-# in the Device section /etc/X11/xorg.conf
-# oem 2 Requires:
-#	Option "QuirkEDID60Hz"
-#	Option "UseOEMData" "false"
-#	Option "UseROMData" "false"
-# in the Device section /etc/X11/xorg.conf
-# Both OEMs require a "cold boot" to take effect, that is, if fiddling
-# with xorg.conf options, it may require a cold boot because the driver
-# will keep some register set between X Server restarts.
-# Both OEMs are based on 2009.1 (using SiS 671).
-Patch6: x11-driver-video-sisimedia-0.9.1-QuirkEDID60Hz.patch
+Patch3: 0005-Fix-backlight-off-on-SiS30x.-video-bridges.patch
+Patch4: 0006-Add-IgnoreHotkeyFlag-driver-option.patch
 
 License: MIT
 BuildRoot: %{_tmppath}/%{name}-root
@@ -72,8 +62,6 @@ is very different, so the two cannot be easily merged.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
-%patch6 -p1
 
 %build
 # rename driver sisimedia so it can co-exist with x.org sis driver

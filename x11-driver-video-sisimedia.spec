@@ -23,7 +23,7 @@
 # % chmod +x configure
 # % tar jcvf xf86-video-sis-0.9.1.tar.bz2 xf86-video-sis-0.9.1
 %define date 20091203
-%define rel 1
+%define rel 2
 
 Name: x11-driver-video-sisimedia
 Version: 0.9.1
@@ -33,10 +33,15 @@ Group: System/X11
 URL: http://www.linuxconsulting.ro/xorg-drivers/
 Source: http://xorg.freedesktop.org/releases/individual/driver/xf86-video-sis-%{version}.tar.bz2
 
-Patch1: 0002-Remove-XFree86-Misc-PassMessage-support.patch
-Patch2: 0003-Fix-build-with-Werror-format-security.patch
-Patch3: 0005-Fix-backlight-off-on-SiS30x.-video-bridges.patch
-Patch4: 0006-Add-IgnoreHotkeyFlag-driver-option.patch
+# SiS patch from 20102701
+# $(B[ILwhL(B (chris_ke) <chris_ke@sis.com>
+# ... I just upgrade SiS source based on ver. 090109 ...
+Patch1:	xf86-video-sis-0.9.1-20102701.patch
+Patch2: 0002-Remove-XFree86-Misc-PassMessage-support.patch
+Patch3: 0003-Fix-build-with-Werror-format-security.patch
+Patch4: 0005-Fix-backlight-off-on-SiS30x.-video-bridges.patch
+Patch5: 0006-Add-IgnoreHotkeyFlag-driver-option.patch
+Patch6:	xf86-video-sis-0.9.1-dump-regs-after-video-init.patch
 
 License: MIT
 BuildRoot: %{_tmppath}/%{name}-root
@@ -62,6 +67,8 @@ is very different, so the two cannot be easily merged.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 %build
 # rename driver sisimedia so it can co-exist with x.org sis driver

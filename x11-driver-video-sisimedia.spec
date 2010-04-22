@@ -23,7 +23,7 @@
 # % chmod +x configure
 # % tar jcvf xf86-video-sis-0.9.1.tar.bz2 xf86-video-sis-0.9.1
 %define date 20091203
-%define rel 3
+%define rel 4
 
 Name: x11-driver-video-sisimedia
 Version: 0.9.1
@@ -42,6 +42,11 @@ Patch3: 0003-Fix-build-with-Werror-format-security.patch
 Patch4: 0005-Fix-backlight-off-on-SiS30x.-video-bridges.patch
 Patch5: 0006-Add-IgnoreHotkeyFlag-driver-option.patch
 Patch6:	xf86-video-sis-0.9.1-dump-regs-after-video-init.patch
+Patch7: 0007-Remove-useless-loader-symbol-lists.patch
+Patch8: 0008-update-to-xextproto-7-1-support.patch
+Patch9: 0009-update-for-rac-removal.patch
+Patch10: 0010-change-to-use-abi-version-check.patch
+Patch11: 0011-more-rac-removal.patch
 
 License: MIT
 BuildRoot: %{_tmppath}/%{name}-root
@@ -63,12 +68,7 @@ is very different, so the two cannot be easily merged.
 
 %prep
 %setup -q -n xf86-video-sis-%{version}
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
+%apply_patches
 
 %build
 # rename driver sisimedia so it can co-exist with x.org sis driver

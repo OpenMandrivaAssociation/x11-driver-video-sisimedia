@@ -23,7 +23,7 @@
 # % chmod +x configure
 # % tar jcvf xf86-video-sis-0.9.1.tar.bz2 xf86-video-sis-0.9.1
 %define date 20091203
-%define rel 4
+%define rel 5
 
 Name: x11-driver-video-sisimedia
 Version: 0.9.1

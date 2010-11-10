@@ -23,7 +23,7 @@
 # % chmod +x configure
 # % tar jcvf xf86-video-sis-0.9.1.tar.bz2 xf86-video-sis-0.9.1
 %define date 20091203
-%define rel 6
+%define rel 7
 
 Name: x11-driver-video-sisimedia
 Version: 0.9.1
@@ -56,6 +56,8 @@ BuildRequires: x11-proto-devel >= 1.0.0
 BuildRequires: x11-server-devel >= 1.0.1
 BuildRequires: x11-util-macros >= 1.0.1
 BuildRequires: GL-devel
+
+Requires: x11-server-common %(xserver-sdk-abi-requires videodrv)
 
 Conflicts: xorg-x11-server < 7.0
 

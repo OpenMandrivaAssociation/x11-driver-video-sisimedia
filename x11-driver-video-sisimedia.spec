@@ -23,7 +23,7 @@
 # % chmod +x configure
 # % tar jcvf xf86-video-sis-0.9.1.tar.bz2 xf86-video-sis-0.9.1
 %define date 20091203
-%define rel 7
+%define rel 8
 
 Name: x11-driver-video-sisimedia
 Version: 0.9.1
@@ -47,6 +47,8 @@ Patch8: 0008-update-to-xextproto-7-1-support.patch
 Patch9: 0009-update-for-rac-removal.patch
 Patch10: 0010-change-to-use-abi-version-check.patch
 Patch11: 0011-more-rac-removal.patch
+Patch12: 0012-remove-mibank-h-reference.patch
+Patch13: 0013-Update-to-new-CreateNewResourceType-API.patch
 
 License: MIT
 BuildRoot: %{_tmppath}/%{name}-root

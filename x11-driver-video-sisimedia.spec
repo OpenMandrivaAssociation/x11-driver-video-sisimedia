@@ -36,18 +36,18 @@ Source: http://xorg.freedesktop.org/releases/individual/driver/xf86-video-sis-%{
 # SiS patch from 20102701
 # $(B[ILwhL(B (chris_ke) <chris_ke@sis.com>
 # ... I just upgrade SiS source based on ver. 090109 ...
-Patch1:	xf86-video-sis-0.9.1-20102701.patch
+Patch1: 0001-xf86-video-sis-0.9.1-20102701.patch
 Patch2: 0002-Remove-XFree86-Misc-PassMessage-support.patch
 Patch3: 0003-Fix-build-with-Werror-format-security.patch
-Patch4: 0005-Fix-backlight-off-on-SiS30x.-video-bridges.patch
-Patch5: 0006-Add-IgnoreHotkeyFlag-driver-option.patch
-Patch6:	xf86-video-sis-0.9.1-dump-regs-after-video-init.patch
+Patch4: 0004-Fix-backlight-off-on-SiS30x.-video-bridges.patch
+Patch5: 0005-Add-IgnoreHotkeyFlag-driver-option.patch
+Patch6: 0006-xf86-video-sis-0.9.1-dump-regs-after-video-init.patch
 Patch7: 0007-Remove-useless-loader-symbol-lists.patch
-Patch8: 0008-update-to-xextproto-7-1-support.patch
-Patch9: 0009-update-for-rac-removal.patch
-Patch10: 0010-change-to-use-abi-version-check.patch
-Patch11: 0011-more-rac-removal.patch
-Patch12: 0012-remove-mibank-h-reference.patch
+Patch8: 0008-Update-to-xextproto-7.1-support.patch
+Patch9: 0009-sis-update-for-resources-RAC-API-removal.patch
+Patch10: 0010-sis-change-to-using-ABI-version-check.patch
+Patch11: 0011-More-RAC-removal.patch
+Patch12: 0012-Remove-mibank.h-reference.patch
 Patch13: 0013-Update-to-new-CreateNewResourceType-API.patch
 
 License: MIT

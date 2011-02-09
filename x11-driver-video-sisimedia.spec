@@ -33,6 +33,19 @@ Group: System/X11
 URL: http://www.linuxconsulting.ro/xorg-drivers/
 Source: http://xorg.freedesktop.org/releases/individual/driver/xf86-video-sis-%{version}.tar.bz2
 
+# How to write/apply a new patch for sisimedia:
+# $ cd SOURCES
+# $ tar xvjf xf86-video-sis-0.9.1.tar.bz2
+# $ cd xf86-video-sis-0.9.1
+# $ git init
+# $ git add .
+# $ git commit -a -m "Initial commit"
+# $ for i in ../*.patch; do git am $i; done
+# Then make your changes and commit them. After that, use "git log" to find out
+# the commit-id of the first version. Then:
+# $ git-format-patch ${initial-commit-id}
+# Finally, copy your patch to "..", edit this spec, test and commit.
+
 # SiS patch from 20102701
 # $(B[ILwhL(B (chris_ke) <chris_ke@sis.com>
 # ... I just upgrade SiS source based on ver. 090109 ...
@@ -52,7 +65,7 @@ Patch13: 0013-Update-to-new-CreateNewResourceType-API.patch
 
 License: MIT
 BuildRoot: %{_tmppath}/%{name}-root
- 
+
 BuildRequires: libdrm-devel >= 2.0
 BuildRequires: x11-proto-devel >= 1.0.0
 BuildRequires: x11-server-devel >= 1.0.1

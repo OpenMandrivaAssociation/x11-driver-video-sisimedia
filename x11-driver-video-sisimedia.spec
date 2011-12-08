@@ -16,7 +16,7 @@
 # % rm -f src/*.bak
 # % rm -fr src/xvmc/.deps
 # % rm -fr src/xvmc/Makefile
-# % for f in `find . -name \*.c -o -name \*.h`; do dos2unix -U $f; done
+# % for f in `find . -name \*.c -o -name \*.h`; do dos2unix $f; done
 # % cd ..
 # % mkdir xf86-video-sis-0.9.1
 # % mv 2d-driver/* xf86-video-sis-0.9.1

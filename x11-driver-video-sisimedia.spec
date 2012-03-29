@@ -23,15 +23,14 @@
 # % chmod +x configure
 # % tar jcvf xf86-video-sis-0.9.1.tar.bz2 xf86-video-sis-0.9.1
 %define date 20091203
-%define rel 10
 
 Name: x11-driver-video-sisimedia
 Version: 0.9.1
-Release: %mkrel 2.%{date}.%{rel}
+Release: 2.%{date}.11
 Summary: Video driver for SiS 670 / 671 cards
 Group: System/X11
 URL: http://www.linuxconsulting.ro/xorg-drivers/
-Source: http://xorg.freedesktop.org/releases/individual/driver/xf86-video-sis-%{version}.tar.bz2
+Source0: http://xorg.freedesktop.org/releases/individual/driver/xf86-video-sis-%{version}.tar.bz2
 
 # How to write/apply a new patch for sisimedia:
 # $ cd SOURCES
@@ -64,7 +63,6 @@ Patch12: 0012-Remove-mibank.h-reference.patch
 Patch13: 0013-Update-to-new-CreateNewResourceType-API.patch
 
 License: MIT
-BuildRoot: %{_tmppath}/%{name}-root
 
 BuildRequires: libdrm-devel >= 2.0
 BuildRequires: x11-proto-devel >= 1.0.0
@@ -100,17 +98,12 @@ autoreconf -ifs
 %make
 
 %install
-rm -rf %{buildroot}
 %makeinstall_std
 # it's just a copy of the x.org driver manpage and so not really any
 # use - AdamW 2008/08
 rm -f %{buildroot}%{_mandir}/man4/sis.*
-
-%clean
-rm -rf %{buildroot}
+find %{buildroot} -type f -name "*.la" -exec rm -f {} ';'
 
 %files
-%defattr(-,root,root)
-%{_libdir}/xorg/modules/drivers/sisimedia_drv.la
 %{_libdir}/xorg/modules/drivers/sisimedia_drv.so
 

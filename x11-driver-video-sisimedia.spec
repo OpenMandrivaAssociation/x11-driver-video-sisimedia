@@ -70,9 +70,8 @@ Patch13: 0013-Update-to-new-CreateNewResourceType-API.patch
 #ubuntu patch
 Patch100: deprecated-sym2.patch
 
-#mdv
+# mdv
 Patch200: xf86-video-sis-0.9.1_deprecation.patch
-
 Patch201:	xf86-video-sis-0.9.1-xserver-1.12.patch
 
 BuildRequires: libdrm-devel >= 2.0

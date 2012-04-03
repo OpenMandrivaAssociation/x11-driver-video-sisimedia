@@ -22,13 +22,18 @@
 # % mv 2d-driver/* xf86-video-sis-0.9.1
 # % chmod +x configure
 # % tar jcvf xf86-video-sis-0.9.1.tar.bz2 xf86-video-sis-0.9.1
+
+# there is also this
+# https://github.com/hellnest
+
 %define date 20091203
 
 Name: x11-driver-video-sisimedia
 Version: 0.9.1
-Release: 2.%{date}.11
+Release: 2.%{date}.12
 Summary: Video driver for SiS 670 / 671 cards
 Group: System/X11
+License: MIT
 URL: http://www.linuxconsulting.ro/xorg-drivers/
 Source0: http://xorg.freedesktop.org/releases/individual/driver/xf86-video-sis-%{version}.tar.bz2
 
@@ -62,7 +67,11 @@ Patch11: 0011-More-RAC-removal.patch
 Patch12: 0012-Remove-mibank.h-reference.patch
 Patch13: 0013-Update-to-new-CreateNewResourceType-API.patch
 
-License: MIT
+#ubuntu patch
+Patch100: deprecated-sym2.patch
+
+#mdv
+Patch200: xf86-video-sis-0.9.1_deprecation.patch
 
 BuildRequires: libdrm-devel >= 2.0
 BuildRequires: x11-proto-devel >= 1.0.0
@@ -94,7 +103,9 @@ sed -i -e 's,sisModuleData,sisimediaModuleData,g' src/sis_driver.c
 
 autoreconf -ifs
 
-%configure2_5x --disable-static
+%configure2_5x \
+	--disable-static
+
 %make
 
 %install

@@ -30,7 +30,7 @@
 
 Name: x11-driver-video-sisimedia
 Version: 0.9.1
-Release: 2.%{date}.12
+Release: 2.%{date}.13
 Summary: Video driver for SiS 670 / 671 cards
 Group: System/X11
 License: MIT
@@ -76,7 +76,7 @@ Patch201:	xf86-video-sis-0.9.1-xserver-1.12.patch
 
 BuildRequires: libdrm-devel >= 2.0
 BuildRequires: x11-proto-devel >= 1.0.0
-BuildRequires: x11-server-devel >= 1.0.1
+BuildRequires: pkgconfig(xorg-server) >= 1.13
 BuildRequires: x11-util-macros >= 1.0.1
 BuildRequires: GL-devel
 

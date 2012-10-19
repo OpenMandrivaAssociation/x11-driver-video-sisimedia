@@ -30,7 +30,7 @@
 
 Name: x11-driver-video-sisimedia
 Version: 0.9.1
-Release: 2.%{date}.13
+Release: 2.%{date}.14
 Summary: Video driver for SiS 670 / 671 cards
 Group: System/X11
 License: MIT
@@ -73,6 +73,8 @@ Patch100: deprecated-sym2.patch
 # mdv
 Patch200: xf86-video-sis-0.9.1_deprecation.patch
 Patch201:	xf86-video-sis-0.9.1-xserver-1.12.patch
+Patch202:	sisimedia-no-xaa.patch
+Patch203:	sisimedia-xorg-1.13.patch
 
 BuildRequires: libdrm-devel >= 2.0
 BuildRequires: x11-proto-devel >= 1.0.0
@@ -102,7 +104,10 @@ sed -i -e 's,sis_drv,sisimedia_drv,g' src/Makefile.am
 sed -i -e 's,\"sis\",\"sisimedia\",g' src/sis.h
 sed -i -e 's,sisModuleData,sisimediaModuleData,g' src/sis_driver.c
 
-autoreconf -ifs
+libtoolize --force
+aclocal
+automake -a
+autoconf
 
 %configure2_5x \
 	--disable-static

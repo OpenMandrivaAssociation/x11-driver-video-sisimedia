@@ -1,0 +1,316 @@
+--- xf86-video-sis-0.9.1/src/sis.h.orig	2012-04-03 14:40:48.953439698 -0300
++++ xf86-video-sis-0.9.1/src/sis.h	2012-04-03 14:41:45.510439341 -0300
+@@ -68,6 +68,7 @@
+ #include "xf86Resources.h"
+ #endif
+ #include "xf86.h"
++#include "xf86Pci.h"
+ #include "sis_pciids.h"
+ #include "xf86Cursor.h"
+ #include "xf86cmap.h"
+--- xf86-video-sis-0.9.1/src/sis_mergedfb.c.orig	2012-04-03 14:40:54.782439984 -0300
++++ xf86-video-sis-0.9.1/src/sis_mergedfb.c	2012-04-03 14:42:00.664440684 -0300
+@@ -2463,7 +2463,6 @@ static int
+ SiSProcXineramaQueryVersion(ClientPtr client)
+ {
+     xPanoramiXQueryVersionReply	  rep;
+-    register int		  n;
+ 
+     REQUEST_SIZE_MATCH(xPanoramiXQueryVersionReq);
+     rep.type = X_Reply;
+@@ -2472,10 +2471,10 @@ SiSProcXineramaQueryVersion(ClientPtr cl
+     rep.majorVersion = SIS_XINERAMA_MAJOR_VERSION;
+     rep.minorVersion = SIS_XINERAMA_MINOR_VERSION;
+     if(client->swapped) {
+-       swaps(&rep.sequenceNumber, n);
+-       swapl(&rep.length, n);
+-       swaps(&rep.majorVersion, n);
+-       swaps(&rep.minorVersion, n);
++       swaps(&rep.sequenceNumber);
++       swapl(&rep.length);
++       swaps(&rep.majorVersion);
++       swaps(&rep.minorVersion);
+     }
+     WriteToClient(client, sizeof(xPanoramiXQueryVersionReply), (char *)&rep);
+     return (client->noClientException);
+@@ -2487,7 +2486,6 @@ SiSProcXineramaGetState(ClientPtr client
+     REQUEST(xPanoramiXGetStateReq);
+     WindowPtr			pWin;
+     xPanoramiXGetStateReply	rep;
+-    register int		n;
+ 
+     REQUEST_SIZE_MATCH(xPanoramiXGetStateReq);
+     pWin = LookupWindow(stuff->window, client);
+@@ -2498,9 +2496,8 @@ SiSProcXineramaGetState(ClientPtr client
+     rep.sequenceNumber = client->sequence;
+     rep.state = !SiSnoPanoramiXExtension;
+     if(client->swapped) {
+-       swaps (&rep.sequenceNumber, n);
+-       swapl (&rep.length, n);
+-       swaps (&rep.state, n);
++       swaps (&rep.sequenceNumber);
++       swapl (&rep.length);
+     }
+     WriteToClient(client, sizeof(xPanoramiXGetStateReply), (char *)&rep);
+     return client->noClientException;
+@@ -2512,7 +2509,6 @@ SiSProcXineramaGetScreenCount(ClientPtr
+     REQUEST(xPanoramiXGetScreenCountReq);
+     WindowPtr				pWin;
+     xPanoramiXGetScreenCountReply	rep;
+-    register int			n;
+ 
+     REQUEST_SIZE_MATCH(xPanoramiXGetScreenCountReq);
+     pWin = LookupWindow(stuff->window, client);
+@@ -2523,9 +2519,8 @@ SiSProcXineramaGetScreenCount(ClientPtr
+     rep.sequenceNumber = client->sequence;
+     rep.ScreenCount = SiSXineramaNumScreens;
+     if(client->swapped) {
+-       swaps(&rep.sequenceNumber, n);
+-       swapl(&rep.length, n);
+-       swaps(&rep.ScreenCount, n);
++       swaps(&rep.sequenceNumber);
++       swapl(&rep.length);
+     }
+     WriteToClient(client, sizeof(xPanoramiXGetScreenCountReply), (char *)&rep);
+     return client->noClientException;
+@@ -2537,7 +2532,6 @@ SiSProcXineramaGetScreenSize(ClientPtr c
+     REQUEST(xPanoramiXGetScreenSizeReq);
+     WindowPtr				pWin;
+     xPanoramiXGetScreenSizeReply	rep;
+-    register int			n;
+ 
+     REQUEST_SIZE_MATCH(xPanoramiXGetScreenSizeReq);
+     pWin = LookupWindow (stuff->window, client);
+@@ -2549,10 +2543,10 @@ SiSProcXineramaGetScreenSize(ClientPtr c
+     rep.width  = SiSXineramadataPtr[stuff->screen].width;
+     rep.height = SiSXineramadataPtr[stuff->screen].height;
+     if(client->swapped) {
+-       swaps(&rep.sequenceNumber, n);
+-       swapl(&rep.length, n);
+-       swaps(&rep.width, n);
+-       swaps(&rep.height, n);
++       swaps(&rep.sequenceNumber);
++       swapl(&rep.length);
++       swapl(&rep.width);
++       swapl(&rep.height);
+     }
+     WriteToClient(client, sizeof(xPanoramiXGetScreenSizeReply), (char *)&rep);
+     return client->noClientException;
+@@ -2570,10 +2564,9 @@ SiSProcXineramaIsActive(ClientPtr client
+     rep.sequenceNumber = client->sequence;
+     rep.state = !SiSnoPanoramiXExtension;
+     if(client->swapped) {
+-       register int n;
+-       swaps(&rep.sequenceNumber, n);
+-       swapl(&rep.length, n);
+-       swapl(&rep.state, n);
++       swaps(&rep.sequenceNumber);
++       swapl(&rep.length);
++       swapl(&rep.state);
+     }
+     WriteToClient(client, sizeof(xXineramaIsActiveReply), (char *) &rep);
+     return client->noClientException;
+@@ -2591,10 +2584,9 @@ SiSProcXineramaQueryScreens(ClientPtr cl
+     rep.number = (SiSnoPanoramiXExtension) ? 0 : SiSXineramaNumScreens;
+     rep.length = rep.number * sz_XineramaScreenInfo >> 2;
+     if(client->swapped) {
+-       register int n;
+-       swaps(&rep.sequenceNumber, n);
+-       swapl(&rep.length, n);
+-       swapl(&rep.number, n);
++       swaps(&rep.sequenceNumber);
++       swapl(&rep.length);
++       swapl(&rep.number);
+     }
+     WriteToClient(client, sizeof(xXineramaQueryScreensReply), (char *)&rep);
+ 
+@@ -2608,11 +2600,10 @@ SiSProcXineramaQueryScreens(ClientPtr cl
+ 	  scratch.width  = SiSXineramadataPtr[i].width;
+ 	  scratch.height = SiSXineramadataPtr[i].height;
+ 	  if(client->swapped) {
+-	     register int n;
+-	     swaps(&scratch.x_org, n);
+-	     swaps(&scratch.y_org, n);
+-	     swaps(&scratch.width, n);
+-	     swaps(&scratch.height, n);
++	     swaps(&scratch.x_org);
++	     swaps(&scratch.y_org);
++	     swaps(&scratch.width);
++	     swaps(&scratch.height);
+ 	  }
+ 	  WriteToClient(client, sz_XineramaScreenInfo, (char *)&scratch);
+        }
+@@ -2762,8 +2753,7 @@ static int
+ SiSSProcXineramaQueryVersion (ClientPtr client)
+ {
+     REQUEST(xPanoramiXQueryVersionReq);
+-    register int n;
+-    swaps(&stuff->length,n);
++    swaps(&stuff->length);
+     REQUEST_SIZE_MATCH (xPanoramiXQueryVersionReq);
+     return SiSProcXineramaQueryVersion(client);
+ }
+@@ -2772,8 +2762,7 @@ static int
+ SiSSProcXineramaGetState(ClientPtr client)
+ {
+     REQUEST(xPanoramiXGetStateReq);
+-    register int n;
+-    swaps (&stuff->length, n);
++    swaps (&stuff->length);
+     REQUEST_SIZE_MATCH(xPanoramiXGetStateReq);
+     return SiSProcXineramaGetState(client);
+ }
+@@ -2782,8 +2771,7 @@ static int
+ SiSSProcXineramaGetScreenCount(ClientPtr client)
+ {
+     REQUEST(xPanoramiXGetScreenCountReq);
+-    register int n;
+-    swaps (&stuff->length, n);
++    swaps (&stuff->length);
+     REQUEST_SIZE_MATCH(xPanoramiXGetScreenCountReq);
+     return SiSProcXineramaGetScreenCount(client);
+ }
+@@ -2792,8 +2780,7 @@ static int
+ SiSSProcXineramaGetScreenSize(ClientPtr client)
+ {
+     REQUEST(xPanoramiXGetScreenSizeReq);
+-    register int n;
+-    swaps (&stuff->length, n);
++    swaps (&stuff->length);
+     REQUEST_SIZE_MATCH(xPanoramiXGetScreenSizeReq);
+     return SiSProcXineramaGetScreenSize(client);
+ }
+@@ -2802,8 +2789,7 @@ static int
+ SiSSProcXineramaIsActive(ClientPtr client)
+ {
+     REQUEST(xXineramaIsActiveReq);
+-    register int n;
+-    swaps (&stuff->length, n);
++    swaps (&stuff->length);
+     REQUEST_SIZE_MATCH(xXineramaIsActiveReq);
+     return SiSProcXineramaIsActive(client);
+ }
+@@ -2812,8 +2798,7 @@ static int
+ SiSSProcXineramaQueryScreens(ClientPtr client)
+ {
+     REQUEST(xXineramaQueryScreensReq);
+-    register int n;
+-    swaps (&stuff->length, n);
++    swaps (&stuff->length);
+     REQUEST_SIZE_MATCH(xXineramaQueryScreensReq);
+     return SiSProcXineramaQueryScreens(client);
+ }
+@@ -2822,9 +2807,8 @@ static int
+ SiSSProcXineramaSelectInput(ClientPtr client)
+ {
+     REQUEST(xXineramaSelectInputReq);
+-    register int n;
+-    swaps(&stuff->length, n);
+-    swapl(&stuff->window, n);
++    swaps(&stuff->length);
++    swapl(&stuff->window);
+     return SiSProcXineramaSelectInput(client);
+ }
+ 
+--- xf86-video-sis-0.9.1/src/sis_utility.c.orig	2012-04-03 14:41:02.190439575 -0300
++++ xf86-video-sis-0.9.1/src/sis_utility.c	2012-04-03 14:42:12.835439258 -0300
+@@ -2051,7 +2051,6 @@ static int
+ SiSProcSiSCtrlQueryVersion(ClientPtr client)
+ {
+     xSiSCtrlQueryVersionReply	  rep;
+-    register int		  n;
+ 
+     REQUEST_SIZE_MATCH(xSiSCtrlQueryVersionReq);
+     rep.type = X_Reply;
+@@ -2060,10 +2059,10 @@ SiSProcSiSCtrlQueryVersion(ClientPtr cli
+     rep.majorVersion = SISCTRL_MAJOR_VERSION;
+     rep.minorVersion = SISCTRL_MINOR_VERSION;
+     if(client->swapped) {
+-        swaps(&rep.sequenceNumber, n);
+-        swapl(&rep.length, n);
+-        swaps(&rep.majorVersion, n);
+-        swaps(&rep.minorVersion, n);
++        swaps(&rep.sequenceNumber);
++        swapl(&rep.length);
++        swaps(&rep.majorVersion);
++        swaps(&rep.minorVersion);
+     }
+     WriteToClient(client, sizeof(xSiSCtrlQueryVersionReply), (char *)&rep);
+     return (client->noClientException);
+@@ -2076,7 +2075,6 @@ SiSProcSiSCtrlCommand(ClientPtr client)
+     xSiSCtrlCommandReply rep;
+     ExtensionEntry 	 *myext;
+     xSiSCtrlScreenTable  *myctrl;
+-    register int	 n;
+     int 		 i, ret;
+ 
+     REQUEST_SIZE_MATCH(xSiSCtrlCommandReq);
+@@ -2104,15 +2102,15 @@ SiSProcSiSCtrlCommand(ClientPtr client)
+     rep.sequenceNumber = client->sequence;
+ 
+     if(client->swapped) {
+-       swaps(&rep.sequenceNumber, n);
+-       swapl(&rep.length, n);
+-       swapl(&rep.screen, n);
+-       swapl(&rep.sdc_id, n);
+-       swapl(&rep.sdc_command, n);
+-       swapl(&rep.sdc_result_header, n);
++       swaps(&rep.sequenceNumber);
++       swapl(&rep.length);
++       swapl(&rep.screen);
++       swapl(&rep.sdc_id);
++       swapl(&rep.sdc_command);
++       swapl(&rep.sdc_result_header);
+        for(i = 0; i < SDC_NUM_PARM_RESULT; i++) {
+-	  swapl(&rep.sdc_parm[i], n);
+-	  swapl(&rep.sdc_result[i], n);
++	  swapl(&rep.sdc_parm[i]);
++	  swapl(&rep.sdc_result[i]);
+        }
+     }
+     WriteToClient(client, sizeof(xSiSCtrlCommandReply), (char *)&rep);
+@@ -2138,8 +2136,7 @@ static int
+ SiSSProcSiSCtrlQueryVersion(ClientPtr client)
+ {
+     REQUEST(xSiSCtrlQueryVersionReq);
+-    register int n;
+-    swaps(&stuff->length, n);
++    swaps(&stuff->length);
+     REQUEST_SIZE_MATCH(xSiSCtrlQueryVersionReq);
+     return SiSProcSiSCtrlQueryVersion(client);
+ }
+@@ -2148,16 +2145,15 @@ static int
+ SiSSProcSiSCtrlCommand(ClientPtr client)
+ {
+     REQUEST(xSiSCtrlCommandReq);
+-    register int n;
+     int i;
+-    swaps(&stuff->length, n);
+-    swapl(&stuff->screen, n);
+-    swapl(&stuff->sdc_id, n);
+-    swapl(&stuff->sdc_command, n);
+-    swapl(&stuff->sdc_result_header, n);
++    swaps(&stuff->length);
++    swapl(&stuff->screen);
++    swapl(&stuff->sdc_id);
++    swapl(&stuff->sdc_command);
++    swapl(&stuff->sdc_result_header);
+     for(i = 0; i < SDC_NUM_PARM_RESULT; i++) {
+-       swapl(&stuff->sdc_parm[i], n);
+-       swapl(&stuff->sdc_result[i], n);
++       swapl(&stuff->sdc_parm[i]);
++       swapl(&stuff->sdc_result[i]);
+     }
+     REQUEST_SIZE_MATCH(xSiSCtrlCommandReq);
+     return SiSProcSiSCtrlCommand(client);
+--- xf86-video-sis-0.9.1/src/sis_driver.c.orig	2012-04-03 14:44:24.877440113 -0300
++++ xf86-video-sis-0.9.1/src/sis_driver.c	2012-04-03 14:45:35.428437619 -0300
+@@ -3173,7 +3173,7 @@ SISPreInit(ScrnInfoPtr pScrn, int flags)
+     pSiS->pInt = NULL;
+ 
+     /* Save PCI Domain Base */
+-#if XF86_VERSION_CURRENT < XF86_VERSION_NUMERIC(4,2,99,0,0)
++#if XF86_VERSION_CURRENT < XF86_VERSION_NUMERIC(4,2,99,0,0) || GET_ABI_MAJOR(ABI_VIDEODRV_VERSION) >= 12
+     pSiS->IODBase = 0;
+ #else
+     pSiS->IODBase = pScrn->domainIOBase;

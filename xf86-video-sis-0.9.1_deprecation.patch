@@ -1,0 +1,84 @@
+--- xf86-video-sis-0.9.1/src/sis.h~	2009-12-03 12:28:46.000000000 -0700
++++ xf86-video-sis-0.9.1/src/sis.h	2012-04-03 15:12:17.130306666 -0600
+@@ -68,7 +68,7 @@
+ #include "xf86Resources.h"
+ #endif
+ #include "xf86.h"
+-#include "xf86PciInfo.h"
++#include "sis_pciids.h"
+ #include "xf86Cursor.h"
+ #include "xf86cmap.h"
+ #include "vbe.h"
+--- xf86-video-sis-0.9.1/src/sis_hwmc.c~	2008-03-04 10:31:10.000000000 -0700
++++ xf86-video-sis-0.9.1/src/sis_hwmc.c	2012-04-03 15:12:29.666306335 -0600
+@@ -47,7 +47,6 @@
+ #include "xf86Resources.h"
+ #endif
+ #include "compiler.h"
+-#include "xf86PciInfo.h"
+ #include "xf86Pci.h"
+ #include "xf86fbman.h"
+ #include "regionstr.h"
+--- xf86-video-sis-0.9.1/src/sis_pciids.h~	1969-12-31 17:00:00.000000000 -0700
++++ xf86-video-sis-0.9.1/src/sis_pciids.h	2012-04-03 15:10:15.716306011 -0600
+@@ -0,0 +1,36 @@
++#ifndef SIS_PCIIDS_H
++#define SIS_PCIIDS_H
++
++#define PCI_VENDOR_SIS          0x1039
++/* SiS */
++#define PCI_CHIP_SG86C201       0x0001
++#define PCI_CHIP_SG86C202       0x0002
++#define PCI_CHIP_SG85C503       0x0008
++#define PCI_CHIP_SIS5597        0x0200
++/* Agregado por Carlos Duclos & Manuel Jander */
++#define PCI_CHIP_SIS82C204      0x0204
++#define PCI_CHIP_SG86C205       0x0205
++#define PCI_CHIP_SG86C215       0x0215
++#define PCI_CHIP_SG86C225       0x0225
++#define PCI_CHIP_85C501         0x0406
++#define PCI_CHIP_85C496         0x0496
++#define PCI_CHIP_85C601         0x0601
++#define PCI_CHIP_85C5107        0x5107
++#define PCI_CHIP_85C5511        0x5511
++#define PCI_CHIP_85C5513        0x5513
++#define PCI_CHIP_SIS5571        0x5571
++#define PCI_CHIP_SIS5597_2      0x5597
++#define PCI_CHIP_SIS530         0x6306
++#define PCI_CHIP_SIS6326        0x6326
++#define PCI_CHIP_SIS7001        0x7001
++#define PCI_CHIP_SIS300         0x0300
++#define PCI_CHIP_SIS315H        0x0310
++#define PCI_CHIP_SIS315PRO      0x0325
++#define PCI_CHIP_SIS330         0x0330
++#define PCI_CHIP_SIS630         0x6300
++#define PCI_CHIP_SIS540         0x5300
++#define PCI_CHIP_SIS550         0x5315
++#define PCI_CHIP_SIS650         0x6325
++#define PCI_CHIP_SIS730         0x7300
++
++#endif /* SIS_PCIIDS_h */
+--- xf86-video-sis-0.9.1/src/vgatypes.h~	2007-05-29 20:12:02.000000000 -0600
++++ xf86-video-sis-0.9.1/src/vgatypes.h	2012-04-03 15:34:22.216315111 -0600
+@@ -82,10 +82,9 @@
+ 
+ #ifdef SIS_XORG_XF86
+ #if XF86_VERSION_CURRENT < XF86_VERSION_NUMERIC(4,2,0,0,0)
+-typedef unsigned long IOADDRESS;
+ typedef unsigned long SISIOADDRESS;
+ #else
+-typedef IOADDRESS SISIOADDRESS;
++typedef SISIOADDRESS;
+ #endif
+ #endif
+ 
+--- xf86-video-sis-0.9.1/src/sis_driver.c~	2009-06-22 06:15:54.000000000 -0600
++++ xf86-video-sis-0.9.1/src/sis_driver.c	2012-04-03 15:53:51.889324282 -0600
+@@ -105,7 +105,6 @@
+ #include "sis_driver.h"
+ 
+ #define _XF86DGA_SERVER_
+-#include <X11/extensions/xf86dgastr.h>
+ 
+ #include "globals.h"
+ 

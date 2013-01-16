@@ -1,0 +1,11 @@
+--- xf86-video-sis-0.9.1/configure.ac.bero	2013-01-16 04:04:51.646518612 +0100
++++ xf86-video-sis-0.9.1/configure.ac	2013-01-16 04:04:56.141466267 +0100
+@@ -27,7 +27,7 @@ AC_INIT([xf86-video-sis],
+         xf86-video-sis)
+ 
+ AC_CONFIG_SRCDIR([Makefile.am])
+-AM_CONFIG_HEADER([config.h])
++AC_CONFIG_HEADERS([config.h])
+ AC_CONFIG_AUX_DIR(.)
+ 
+ AM_INIT_AUTOMAKE([dist-bzip2])

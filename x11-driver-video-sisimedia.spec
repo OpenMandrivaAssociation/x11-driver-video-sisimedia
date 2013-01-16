@@ -69,6 +69,7 @@ Patch200:	xf86-video-sis-0.9.1_deprecation.patch
 Patch201:	xf86-video-sis-0.9.1-xserver-1.12.patch
 Patch202:	sisimedia-no-xaa.patch
 Patch203:	sisimedia-xorg-1.13.patch
+Patch204:	sis-automake-1.13.patch
 
 License: MIT
 

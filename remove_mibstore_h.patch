@@ -1,0 +1,10 @@
+--- xf86-video-sis-0.9.1/src/sis_driver.c~	2009-06-22 12:15:54.000000000 +0000
++++ xf86-video-sis-0.9.1/src/sis_driver.c	2013-03-24 15:19:21.585840339 +0000
+@@ -85,7 +85,6 @@
+ #include "micmap.h"
+ #include "mibank.h"
+ #include "mipointer.h"
+-#include "mibstore.h"
+ #define _XF86MISC_SERVER_
+ #include <X11/extensions/xf86misc.h>
+ #include "edid.h"

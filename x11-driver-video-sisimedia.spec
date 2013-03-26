@@ -28,7 +28,7 @@
 Summary:	Video driver for SiS 670 / 671 cards
 Name:		x11-driver-video-sisimedia
 Version:	0.9.1
-Release:	2.%{date}.15
+Release:	2.%{date}.16
 Group:		System/X11
 License: MIT
 Url:		http://www.linuxconsulting.ro/xorg-drivers/

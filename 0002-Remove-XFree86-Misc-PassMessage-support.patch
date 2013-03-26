@@ -1,20 +1,6 @@
-From 1bc1a4544b67ad92f1fab8484be66e12ebf49c5f Mon Sep 17 00:00:00 2001
-From: Paulo Zanoni <pzanoni@mandriva.com>
-Date: Wed, 9 Feb 2011 09:18:18 -0200
-Subject: [PATCH 02/13] Remove-XFree86-Misc-PassMessage-support
-
----
- configure.ac      |    1 -
- src/sis_driver.c  |    7 -------
- src/sis_driver.h  |    4 ----
- src/sis_utility.c |   18 ------------------
- 4 files changed, 0 insertions(+), 30 deletions(-)
-
-diff --git a/configure.ac b/configure.ac
-index 9207b41..df36cea 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -58,7 +58,6 @@ XORG_DRIVER_CHECK_EXT(XINERAMA, xineramaproto)
+--- xf86-video-sis-0.9.1/configure.ac.0002~	2008-10-16 00:22:18.000000000 +0200
++++ xf86-video-sis-0.9.1/configure.ac	2013-03-26 16:49:51.559344387 +0100
+@@ -58,7 +58,6 @@ XORG_DRIVER_CHECK_EXT(XINERAMA, xinerama
  XORG_DRIVER_CHECK_EXT(RANDR, randrproto)
  XORG_DRIVER_CHECK_EXT(RENDER, renderproto)
  XORG_DRIVER_CHECK_EXT(XV, videoproto)
@@ -22,20 +8,18 @@ index 9207b41..df36cea 100644
  XORG_DRIVER_CHECK_EXT(DPMSExtension, xextproto)
  
  # Checks for pkg-config packages
-diff --git a/src/sis_driver.c b/src/sis_driver.c
-index 980bd23..436981f 100644
---- a/src/sis_driver.c
-+++ b/src/sis_driver.c
-@@ -86,8 +86,6 @@
+--- xf86-video-sis-0.9.1/src/sis_driver.c.0002~	2013-03-26 16:49:51.558344399 +0100
++++ xf86-video-sis-0.9.1/src/sis_driver.c	2013-03-26 16:50:58.308509908 +0100
+@@ -85,8 +85,6 @@
+ #include "micmap.h"
  #include "mibank.h"
  #include "mipointer.h"
- #include "mibstore.h"
 -#define _XF86MISC_SERVER_
 -#include <X11/extensions/xf86misc.h>
  #include "edid.h"
  
  #define SIS_NEED_inSISREG
-@@ -506,11 +504,6 @@ xf86DrvMsg(0, X_INFO, "                       func=%d\n", device->func);
+@@ -505,11 +503,6 @@ xf86DrvMsg(0, X_INFO, "
  	    pScrn->FreeScreen       = SISFreeScreen;
  	    pScrn->ValidMode        = SISValidMode;
  	    pScrn->PMEvent          = SISPMEvent; /*add PM function for ACPI hotkey,Ivans*/
@@ -47,11 +31,9 @@ index 980bd23..436981f 100644
  	    foundScreen = TRUE;
  	}
      #ifdef SISDUALHEAD
-diff --git a/src/sis_driver.h b/src/sis_driver.h
-index 378e1f6..116c022 100644
---- a/src/sis_driver.h
-+++ b/src/sis_driver.h
-@@ -791,10 +791,6 @@ static Bool SISHotkeySwitchMode(ScrnInfoPtr pScrn, Bool adjust);/*Resolution opt
+--- xf86-video-sis-0.9.1/src/sis_driver.h.0002~	2013-03-26 16:49:51.558344399 +0100
++++ xf86-video-sis-0.9.1/src/sis_driver.h	2013-03-26 16:49:51.560344374 +0100
+@@ -791,10 +791,6 @@ static Bool SISHotkeySwitchMode(ScrnInfo
  #ifdef SISDUALHEAD
  static Bool	SISSaveScreenDH(ScreenPtr pScreen, int mode);
  #endif
@@ -62,10 +44,8 @@ index 378e1f6..116c022 100644
  static void     SISFreeScreen(int scrnIndex, int flags);
  static ModeStatus SISValidMode(int scrnIndex, DisplayModePtr mode,
  				Bool verbose, int flags);
-diff --git a/src/sis_utility.c b/src/sis_utility.c
-index 3e77144..7ec0e02 100644
---- a/src/sis_utility.c
-+++ b/src/sis_utility.c
+--- xf86-video-sis-0.9.1/src/sis_utility.c.0002~	2008-09-02 16:16:32.000000000 +0200
++++ xf86-video-sis-0.9.1/src/sis_utility.c	2013-03-26 16:49:51.561344362 +0100
 @@ -40,8 +40,6 @@
  #define NEED_EVENTS
  #include <X11/X.h>
@@ -85,7 +65,7 @@ index 3e77144..7ec0e02 100644
  void		SiSCtrlExtInit(ScrnInfoPtr pScrn);
  void		SiSCtrlExtUnregister(SISPtr pSiS, int index);
  
-@@ -975,19 +970,6 @@ unsigned int SISVGADetected(ScrnInfoPtr pScrn)
+@@ -975,19 +970,6 @@ unsigned int SISVGADetected(ScrnInfoPtr
  }
  
  /***********************************
@@ -105,6 +85,3 @@ index 3e77144..7ec0e02 100644
   *   SiSCtrl extension interface   *
   ***********************************/
  
--- 
-1.7.1
-

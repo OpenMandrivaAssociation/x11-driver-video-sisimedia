@@ -8,3 +8,13 @@
  #define _XF86MISC_SERVER_
  #include <X11/extensions/xf86misc.h>
  #include "edid.h"
+--- xf86-video-sis-0.9.1/src/sis_driver.c~	2013-04-06 02:31:51.738125439 +0200
++++ xf86-video-sis-0.9.1/src/sis_driver.c	2013-04-06 02:32:37.782151937 +0200
+@@ -9603,7 +9603,6 @@ SISScreenInit(ScreenPtr pScreen, int arg
+     }
+     pSiS->SiSFastVidCopyDone = TRUE;
+ 
+-    miInitializeBackingStore(pScreen);
+     xf86SetBackingStore(pScreen);
+     xf86SetSilkenMouse(pScreen);
+ 

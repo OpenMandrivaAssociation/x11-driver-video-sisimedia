@@ -1,0 +1,86 @@
+diff -up ./src/sis_driver.c.0030 ./src/sis_driver.c
+--- ./src/sis_driver.c.0030	2015-06-23 07:38:33.517839187 -0400
++++ ./src/sis_driver.c	2015-06-23 07:39:19.991843695 -0400
+@@ -3204,9 +3204,11 @@ SISPreInit(ScrnInfoPtr pScrn, int flags)
+     pSiS->PciBus = PCI_CFG_BUS(pSiS->PciInfo);    
+     pSiS->PciDevice = PCI_CFG_DEV(pSiS->PciInfo); 
+     pSiS->PciFunc = PCI_CFG_FUNC(pSiS->PciInfo); 
++#ifndef XSERVER_LIBPCIACCESS
+     pSiS->PciTag = pciTag(	PCI_DEV_BUS(pSiS->PciInfo), 
+ 							PCI_DEV_DEV(pSiS->PciInfo),
+ 							PCI_DEV_FUNC(pSiS->PciInfo));
++#endif
+ 
+ #ifdef SIS_NEED_MAP_IOP
+     /********************************************/
+@@ -4047,7 +4049,9 @@ SISPreInit(ScrnInfoPtr pScrn, int flags)
+ #endif
+ 
+        memset(pSiS->SiS_Pr, 0, sizeof(struct SiS_Private));
++#ifndef XSERVER_LIBPCIACCESS
+        pSiS->SiS_Pr->PciTag = pSiS->PciTag;
++#endif
+        pSiS->SiS_Pr->ChipType = pSiS->ChipType;
+        pSiS->SiS_Pr->ChipRevision = pSiS->ChipRev;
+        pSiS->SiS_Pr->SiS_Backup70xx = 0xff;
+@@ -6048,7 +6052,9 @@ static Bool
+ SISMapMem(ScrnInfoPtr pScrn)
+ {
+     SISPtr pSiS = SISPTR(pScrn);
++#ifndef XSERVER_LIBPCIACCESS
+     int mmioFlags = VIDMEM_MMIO;
++#endif
+ #ifdef SISDUALHEAD
+     SISEntPtr pSiSEnt = pSiS->entityPrivate;
+ #endif
+diff -up ./src/sis.h.0030 ./src/sis.h
+--- ./src/sis.h.0030	2015-06-23 07:38:33.478839183 -0400
++++ ./src/sis.h	2015-06-23 07:38:33.527839188 -0400
+@@ -1046,9 +1046,8 @@ typedef struct {
+     struct pci_device *PciInfo;
+ #else
+     pciVideoPtr		PciInfo;
+-#endif
+-    
+     PCITAG		PciTag;
++#endif
+ 
+     int			PciBus, PciDevice, PciFunc;
+     EntityInfoPtr	pEnt;
+diff -up ./src/vgatypes.h.0030 ./src/vgatypes.h
+--- ./src/vgatypes.h.0030	2007-05-29 22:12:02.000000000 -0400
++++ ./src/vgatypes.h	2015-06-23 07:38:33.527839188 -0400
+@@ -80,14 +80,14 @@ typedef unsigned long SISIOADDRESS;
+ #endif
+ #endif
+ 
+-#ifdef SIS_XORG_XF86
+-#if XF86_VERSION_CURRENT < XF86_VERSION_NUMERIC(4,2,0,0,0)
++//#ifdef SIS_XORG_XF86
++//#if XF86_VERSION_CURRENT < XF86_VERSION_NUMERIC(4,2,0,0,0)
+ typedef unsigned long IOADDRESS;
+ typedef unsigned long SISIOADDRESS;
+-#else
++//#else
+ typedef IOADDRESS SISIOADDRESS;
+-#endif
+-#endif
++//#endif
++//#endif
+ 
+ typedef enum _SIS_CHIP_TYPE {
+     SIS_VGALegacy = 0,
+diff -up ./src/vstruct.h.0030 ./src/vstruct.h
+--- ./src/vstruct.h.0030	2009-01-09 09:15:52.000000000 -0500
++++ ./src/vstruct.h	2015-06-23 07:38:33.527839188 -0400
+@@ -241,8 +241,10 @@ struct SiS_Private
+ 	unsigned char			ChipType;
+ 	unsigned char			ChipRevision;
+ #ifdef SIS_XORG_XF86
++#ifndef XSERVER_LIBPCIACCESS
+ 	PCITAG				PciTag;
+ #endif
++#endif
+ #ifdef SIS_LINUX_KERNEL
+ 	void				*ivideo;
+ #endif

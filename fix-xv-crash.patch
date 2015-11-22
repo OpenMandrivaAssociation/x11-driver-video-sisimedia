@@ -1,0 +1,12 @@
+diff -Nurpa -x '*~' -x '*.orig' -x '*.rej' -x '*.swp' xf86-video-sis-0.9.1/src/sis_video.c xf86-video-sis-0.9.1/src/sis_video.c
+--- xf86-video-sis-0.9.1/src/sis_video.c	2013-04-28 15:35:31.952780428 +0300
++++ xf86-video-sis-0.9.1/src/sis_video.c	2013-04-28 15:36:33.947466794 +0300
+@@ -1125,7 +1125,7 @@ SISSetupImageVideo(ScreenPtr pScreen)
+     adapt->GetPortAttribute = SISGetPortAttribute;
+     adapt->QueryBestSize = SISQueryBestSize;
+     adapt->PutImage = SISPutImage;
+-    adapt->ReputImage = SISReputImage;
++    adapt->ReputImage = NULL;
+     adapt->QueryImageAttributes = SISQueryImageAttributes;
+ 
+     /* gotta uninit this someplace */

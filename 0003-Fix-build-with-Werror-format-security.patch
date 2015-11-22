@@ -1,7 +1,7 @@
-From 927f0d69e3d15f0abccae6f84d9f8c9ba3d09d52 Mon Sep 17 00:00:00 2001
+From 9b010b7db7f0c6730c1a1b3cd473d49b01ed5b5f Mon Sep 17 00:00:00 2001
 From: Ander Conselvan de Oliveira <ander@mandriva.com.br>
 Date: Mon, 22 Jun 2009 16:07:26 -0400
-Subject: [PATCH 03/13] Fix build with -Werror=format-security
+Subject: [PATCH] Fix build with -Werror=format-security
 
 ---
  src/sis_driver.c   |    4 ++--
@@ -9,10 +9,10 @@ Subject: [PATCH 03/13] Fix build with -Werror=format-security
  2 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/src/sis_driver.c b/src/sis_driver.c
-index 436981f..4dce585 100644
+index 5b91004..0a154db 100644
 --- a/src/sis_driver.c
 +++ b/src/sis_driver.c
-@@ -941,14 +941,14 @@ SISErrorLog(ScrnInfoPtr pScrn, const char *format, ...)
+@@ -831,14 +831,14 @@ SISErrorLog(ScrnInfoPtr pScrn, const char *format, ...)
      static const char *str = "**************************************************\n";
  
      va_start(ap, format);
@@ -61,5 +61,5 @@ index 61b4255..feca024 100644
      }
  
 -- 
-1.7.1
+1.6.2.4
 

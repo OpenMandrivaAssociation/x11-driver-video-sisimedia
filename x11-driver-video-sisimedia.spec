@@ -28,50 +28,48 @@
 Summary:	Video driver for SiS 670 / 671 cards
 Name:		x11-driver-video-sisimedia
 Version:	0.9.1
-Release:	2.%{date}.19
+Release:	2.%{date}.20
 Group:		System/X11
 License: MIT
 Url:		http://www.linuxconsulting.ro/xorg-drivers/
 Source0:	http://xorg.freedesktop.org/releases/individual/driver/xf86-video-sis-%{version}.tar.bz2
 
-# How to write/apply a new patch for sisimedia:
-# $ cd SOURCES
-# $ tar xvjf xf86-video-sis-0.9.1.tar.bz2
-# $ cd xf86-video-sis-0.9.1
-# $ git init
-# $ git add .
-# $ git commit -a -m "Initial commit"
-# $ for i in ../*.patch; do git am $i; done
-# Then make your changes and commit them. After that, use "git log" to find out
-# the commit-id of the first version. Then:
-# $ git-format-patch ${initial-commit-id}
-# Finally, copy your patch to "..", edit this spec, test and commit.
-
 # SiS patch from 20102701
-# $(B[ILwhL(B (chris_ke) <chris_ke@sis.com>
+# B[ILwhL (chris_ke) <chris_ke@sis.com>
 # ... I just upgrade SiS source based on ver. 090109 ...
-Patch0:		remove_mibstore_h.patch
-Patch1:		0001-xf86-video-sis-0.9.1-20102701.patch
-Patch2:		0002-Remove-XFree86-Misc-PassMessage-support.patch
-Patch3:		0003-Fix-build-with-Werror-format-security.patch
-Patch4:		0004-Fix-backlight-off-on-SiS30x.-video-bridges.patch
-Patch5:		0005-Add-IgnoreHotkeyFlag-driver-option.patch
-Patch6:		0006-xf86-video-sis-0.9.1-dump-regs-after-video-init.patch
-Patch7:		0007-Remove-useless-loader-symbol-lists.patch
-Patch8:		0008-Update-to-xextproto-7.1-support.patch
-Patch9:		0009-sis-update-for-resources-RAC-API-removal.patch
-Patch10:	0010-sis-change-to-using-ABI-version-check.patch
-Patch11:	0011-More-RAC-removal.patch
-Patch12:	0012-Remove-mibank.h-reference.patch
-Patch13:	0013-Update-to-new-CreateNewResourceType-API.patch
-#ubuntu patch
-Patch100:	deprecated-sym2.patch
-# mdv
-Patch200:	xf86-video-sis-0.9.1_deprecation.patch
-Patch201:	xf86-video-sis-0.9.1-xserver-1.12.patch
-Patch202:	sisimedia-no-xaa.patch
-Patch203:	sisimedia-xorg-1.13.patch
-Patch204:	sis-automake-1.13.patch
+Patch1: xf86-video-sis-0.9.1-20102701.patch
+Patch2: 0002-Remove-XFree86-Misc-PassMessage-support.patch
+Patch3: 0003-Fix-build-with-Werror-format-security.patch
+Patch4: 0005-Fix-backlight-off-on-SiS30x.-video-bridges.patch
+Patch5: 0006-Add-IgnoreHotkeyFlag-driver-option.patch
+Patch6: xf86-video-sis-0.9.1-dump-regs-after-video-init.patch
+Patch7: 0007-Remove-useless-loader-symbol-lists.patch
+Patch8: 0008-update-to-xextproto-7-1-support.patch
+Patch9: 0009-update-for-rac-removal.patch
+Patch10: 0010-change-to-use-abi-version-check.patch
+Patch11: 0011-more-rac-removal.patch
+Patch12: 0012-remove-mibank-h-reference.patch
+Patch13: 0013-Update-to-new-CreateNewResourceType-API.patch
+
+Patch14: xf86-video-sis-0.9.1-automake-1.13.patch
+
+# Patches from Arch
+Patch15: 0001-Remove-xorgconfig-xorgcfg-from-See-Also-list-in-man-.patch
+Patch16: 0004-Make-sisRegs3D4-big-enough-to-hold-all-values-writte.patch
+Patch17: 0005-Correct-bounds-check-of-blitClip-array-access.patch
+Patch18: xserver112.patch
+Patch19: pciTag-removal-workaround.patch
+Patch20: Untangle-XF86DRI.patch
+Patch21: swap-func-rename.patch
+Patch22: xf86MapDomainMemory-pci_device_map_legacy.patch
+Patch23: sync-with-freedesktop.patch
+Patch24: fix-xv-crash.patch
+Patch25: sisimedia-no-xaa.patch
+Patch26: sisimedia-xorg-1.13.patch
+Patch27: deprecated-sym2.patch
+Patch28: disable-UploadToScreen-DownloadFromScreen.patch
+Patch29: remove_mibstore.h.patch
+Patch30: sisimedia-1.17.diff
 
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(libdrm)
@@ -98,7 +96,7 @@ sed -i -e 's,sisModuleData,sisimediaModuleData,g' src/sis_driver.c
 autoreconf -ifs
 
 %build
-CC=gcc
+export CC=gcc
 %configure --disable-static
 %make
 

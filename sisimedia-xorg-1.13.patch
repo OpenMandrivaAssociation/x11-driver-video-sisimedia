@@ -238,12 +238,12 @@ diff -ur xf86-video-sis-0.9.1/src/sis_driver.c xf86-video-sis-0.9.1-bero/src/sis
  {
 -    ScrnInfoPtr pScrn = xf86Screens[scrnIndex];
      SISPtr pSiS = SISPTR(pScrn);
- #ifdef XF86DRI
+ #ifdef SISDRI
      ScreenPtr pScreen;
  
      if(pSiS->directRenderingEnabled) {
 -       pScreen = screenInfo.screens[scrnIndex];
-+       pScreen = xf86ScrenToScreen(pScrn);
++       pScreen = xf86ScreenToScrn(pScrn);
  /* Mark for 3D full-screen bug */
  /*   DRILock(pScreen, 0); */
      }

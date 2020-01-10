@@ -85,7 +85,7 @@ is very different, so the two cannot be easily merged.
 
 %prep
 %setup -q -n xf86-video-sis-%{version}
-%apply_patches
+%autopatch -p1
 
 # rename driver sisimedia so it can co-exist with x.org sis driver
 # - AdamW 2008/08

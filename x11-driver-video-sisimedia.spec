@@ -31,7 +31,7 @@ Version:	0.9.1
 Release:	2.%{date}.20
 Group:		System/X11
 License: MIT
-Url:		http://www.linuxconsulting.ro/xorg-drivers/
+Url:		https://www.linuxconsulting.ro/xorg-drivers/
 Source0:	http://xorg.freedesktop.org/releases/individual/driver/xf86-video-sis-%{version}.tar.bz2
 
 # SiS patch from 20102701

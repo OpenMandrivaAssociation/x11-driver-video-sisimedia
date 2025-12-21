@@ -71,6 +71,11 @@ Patch28: disable-UploadToScreen-DownloadFromScreen.patch
 Patch29: remove_mibstore.h.patch
 Patch30: sisimedia-1.17.diff
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(libdrm)
 BuildRequires:	pkgconfig(xorg-macros)
